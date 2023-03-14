@@ -19,11 +19,19 @@
         <div class="refresh-container">
             <div>
                 <scpm-sub-title class="ui-stitle">{{$t('label.refreshCycle')}}</scpm-sub-title>
+                <lego-segment-wrapper v-model="refreshInterval">
+                    <lego-segment-button value="1">1 {{$t('lable.minute')}}</lego-segment-button>
+                    <lego-segment-button value="3">3 {{$t('lable.minute')}}</lego-segment-button>
+                    <lego-segment-button value="5">5 {{$t('lable.minute')}}</lego-segment-button>
+                    <lego-segment-button value="10">10 {{$t('lable.minute')}}</lego-segment-button>
+                    <lego-segment-button value="15">15 {{$t('lable.minute')}}</lego-segment-button>
+                </lego-segment-wrapper>
             </div>
         </div>
 
         <div class="button-wrap right">
-
+            <lego-button medium @click="pageOnClosed">{{$t('button.cancel')}}</lego-button>
+            <lego-button medium main @click="onConfirm" :disabled="!valueChanged">{{$t('button.confirm')}}</lego-button>
         </div>
     </div>
 </template>
