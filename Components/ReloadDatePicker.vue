@@ -43,7 +43,60 @@ export default {
         };
     },
     methods: {
-        refresh()
+        refresh() {
+            if (!this.loading) {
+                this.showNow();
+                this.$emit('refresh');
+            }
+            this.loading = true;
+            window.setTimeout(() => {
+                this.loading = false;
+            }, 3000);
+        },
+        togglePlay() {
+            this.isRefreshPlay = !this.isRefreshPlay;
+            if(this.isRefreshPlay){
+                this.startPlay();
+            } else {
+                this.stopPlay();
+            }
+        },
+        showNow() {
+            this.now = moment().format('YYYY-MM-DD HH:mm');
+        },
+        startPlay() {
+            this.playTimer = window.setInterval(() => {
+              this.refresh,
+              this.refreshInterval * 60 * 1000
+            });
+        },
+        stopPlay() {
+            window.clearInterval(this.playTimer);
+        },
+        togglePopup(id) {
+            this.popup[id] = !this.popup[id];
+            if(this.popup[id]) {
+                this.$refs.popup.setDefault();
+            }
+        },
+        onSave(param) {
+            this.refreshInterval = param.refresh;
+            this.$emit('save');
+            this.resetReloadTime();
+        },
+        resetReloadTime() {
+            if(this.isRefreshPlay) {
+                this.showNow();
+                this.stopPlay();
+                this.startPlay();
+            }
+        },
+        getCurrentDate() {
+            return this.$refs.popup.getCurrentDate();
+        },
+        setDate(d) {
+            this.$refs.popup.setDate(d)
+        }
     }
 }
 </script>
